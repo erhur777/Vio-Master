@@ -50,7 +50,7 @@ resources:
     type: OS::Neutron::Subnet
     properties:
       name: web-subnet-01
-      cidr: 10.102.253.0/30
+      cidr: 10.102.253.0/29
       enable_dhcp: true
       dns_nameservers: [ { get_param: dns } ]
       gateway_ip: 10.102.253.1
@@ -66,10 +66,10 @@ resources:
     type: OS::Neutron::Subnet
     properties:
       name: app-subnet-01
-      cidr: 10.102.253.4/30
+      cidr: 10.102.253.8/29
       dns_nameservers: [ { get_param: dns } ]
       enable_dhcp: true
-      gateway_ip: 10.102.253.5
+      gateway_ip: 10.102.253.9
       network_id: { get_resource: app_network_01 }
 
   # Create the db logical switch and configure DHCP.
@@ -82,10 +82,10 @@ resources:
     type: OS::Neutron::Subnet
     properties:
       name: db-subnet-01
-      cidr: 10.102.253.8/30
+      cidr: 10.102.253.16/29
       dns_nameservers: [ { get_param: dns } ]
       enable_dhcp: true
-      gateway_ip: 10.102.253.9
+      gateway_ip: 10.102.253.17
       network_id: { get_resource: db_network_01 }
 
   # Create router, add internal interfaces for 3 tiers, and also an uplink.
