@@ -117,7 +117,7 @@ resources:
     type: OS::Neutron::SecurityGroup
     properties:
       description: Allow sql traffic from web tier
-      name: db-security-group1
+      name: db-security-group
       rules:
         - remote_ip_prefix: { get_attr: [ app_subnet_01, cidr ] }
           protocol: tcp
@@ -130,7 +130,7 @@ resources:
     type: OS::Neutron::SecurityGroup
     properties:
       description: Allow web traffic from anywhere
-      name: web-security-group1
+      name: web-security-group
       rules:
         - remote_ip_prefix: 0.0.0.0/0
           protocol: tcp
@@ -147,7 +147,7 @@ resources:
     type: OS::Neutron::SecurityGroup
     properties:
       description: Allow app traffic from web tier
-      name: app-security-group1
+      name: app-security-group
       rules:
         - remote_ip_prefix: { get_attr: [ web_subnet_01, cidr ] }
           protocol: tcp
