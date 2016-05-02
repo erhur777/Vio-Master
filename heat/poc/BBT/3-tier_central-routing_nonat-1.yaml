@@ -113,7 +113,7 @@ resources:
       subnet_id: { get_resource: db_subnet_01 }
 
   # Create security groups for the tiers.
-  db_security_group1:
+  db_security_group:
     type: OS::Neutron::SecurityGroup
     properties:
       description: Allow sql traffic from web tier
@@ -126,7 +126,7 @@ resources:
         - remote_ip_prefix: 0.0.0.0/0
           protocol: icmp
 
-  web_security_group1:
+  web_security_group:
     type: OS::Neutron::SecurityGroup
     properties:
       description: Allow web traffic from anywhere
@@ -143,7 +143,7 @@ resources:
         - remote_ip_prefix: 0.0.0.0/0
           protocol: icmp
 
-  app_security_group1:
+  app_security_group:
     type: OS::Neutron::SecurityGroup
     properties:
       description: Allow app traffic from web tier
@@ -163,7 +163,11 @@ resources:
       admin_state_up: true
       network_id: { get_resource: web_network_01 }
       security_groups:
+<<<<<<< HEAD
         - { get_resource: web_security_group1 }
+=======
+        - { get_resource: web_security_group }
+>>>>>>> parent of de57a07... security group re-config
 
   # Create port(s) on app switch.
   app-svr-01_port0:
@@ -172,7 +176,11 @@ resources:
       admin_state_up: true
       network_id: { get_resource: app_network_01 }
       security_groups:
+<<<<<<< HEAD
         - { get_resource: app_security_group1 }
+=======
+        - { get_resource: app_security_group }
+>>>>>>> parent of de57a07... security group re-config
 
   # Create port(s) on db switch.
   db-svr-01_port0:
@@ -181,7 +189,11 @@ resources:
       admin_state_up: true
       network_id: { get_resource: db_network_01 }
       security_groups:
+<<<<<<< HEAD
         - { get_resource: db_security_group1 }
+=======
+        - { get_resource: db_security_group }
+>>>>>>> parent of de57a07... security group re-config
 
   # Provision instances.
   db-svr-01:
