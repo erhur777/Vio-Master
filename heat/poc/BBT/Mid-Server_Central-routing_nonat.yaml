@@ -1,0 +1,82 @@
+heat_template_version: 2015-04-30
+
+description: |
+  A simple Heat template that spins up a single app server on a private networks (HOT template in YAML).
+  Since this is a NO-NAT template this MUST be done by an OpenStack Admin.
+
+parameters:
+  external_network_id:
+    type: string
+    label: ext-net
+    description: UUID of a Neutron external network
+    default: 10b7b965-0b1f-40a7-94d0-2cf17e26f8d6
+
+  mid_image:
+    type: string
+    description: Name of image to use for servers
+    default: ubuntu-14.04-server-amd64
+
+  flavor:
+    type: string
+    label: Flavor name
+    description: Name of the flavor to be used for the instances.
+    default: m1.medium
+
+  dns:
+    type: string
+    label: DNS nameserver
+    description: Comma separated list of DNS nameservers for the private network
+    default: "10.102.254.50"
+
+resources:
+  # Create the mid logical switch and configure DHCP.
+  mid_network_01:
+    type: OS::Neutron::Net
+    properties:
+      admin_state_up: true
+      name: Mid-network-01
+  mid_subnet_01:
+    type: OS::Neutron::Subnet
+    properties:
+      name: mid-subnet-01
+      cidr: 10.102.253.0/29
+      enable_dhcp: true
+      dns_nameservers: [ { get_param: dns } ]
+      gateway_ip: 10.102.253.1
+      network_id: { get_resource: mid_network_01 }
+
+  # Create router, add internal interfaces 
+  heat_router_01:
+    type: OS::Neutron::Router
+    properties:
+      name: heat-router-01
+      value_specs: {router_type: exclusive}
+      admin_state_up: true
+      external_gateway_info: { "enable_snat": false, "network": { get_param: external_network_id }}
+  heat_router_int0:
+    type: OS::Neutron::RouterInterface
+    properties:
+      router_id: { get_resource: heat_router_01 }
+      subnet_id: { get_resource: mid_subnet_01 }
+
+  # Create ports on mid switch.
+  mid-svr-01_port0:
+    type: OS::Neutron::Port
+    properties:
+      admin_state_up: true
+      network_id: { get_resource: mid_network_01 }
+
+  # Provision instances.
+  mid-svr-01:
+    type: OS::Nova::Server
+    properties:
+      name: mid-instance-01
+      image: { get_param: mid_image }
+      flavor: { get_param: flavor }
+      networks:
+        - port: { get_resource: mid-svr-01_port0 }
+
+outputs:
+  mid-svr-01_private_ip:
+    description: IP address of mid-svr-01 in private network
+    value: { get_attr: [ mid-svr-01, first_address ] }
