@@ -113,11 +113,11 @@ resources:
       subnet_id: { get_resource: db_subnet_01 }
 
   # Create security groups for the tiers.
-  db_security_group:
+  db_security_group1:
     type: OS::Neutron::SecurityGroup
     properties:
       description: Allow sql traffic from web tier
-      name: db-security-group
+      name: db-security-group1
       rules:
         - remote_ip_prefix: { get_attr: [ app_subnet_01, cidr ] }
           protocol: tcp
@@ -126,11 +126,11 @@ resources:
         - remote_ip_prefix: 0.0.0.0/0
           protocol: icmp
 
-  web_security_group:
+  web_security_group1:
     type: OS::Neutron::SecurityGroup
     properties:
       description: Allow web traffic from anywhere
-      name: web-security-group
+      name: web-security-group1
       rules:
         - remote_ip_prefix: 0.0.0.0/0
           protocol: tcp
@@ -143,11 +143,11 @@ resources:
         - remote_ip_prefix: 0.0.0.0/0
           protocol: icmp
 
-  app_security_group:
+  app_security_group1:
     type: OS::Neutron::SecurityGroup
     properties:
       description: Allow app traffic from web tier
-      name: app-security-group
+      name: app-security-group1
       rules:
         - remote_ip_prefix: { get_attr: [ web_subnet_01, cidr ] }
           protocol: tcp
@@ -162,8 +162,8 @@ resources:
     properties:
       admin_state_up: true
       network_id: { get_resource: web_network_01 }
-      security_groups:
-        - { get_resource: web_security_group }
+      security_group1s:
+        - { get_resource: web_security_group1 }
 
   # Create port(s) on app switch.
   app-svr-01_port0:
@@ -171,8 +171,8 @@ resources:
     properties:
       admin_state_up: true
       network_id: { get_resource: app_network_01 }
-      security_groups:
-        - { get_resource: app_security_group }
+      security_group1s:
+        - { get_resource: app_security_group1 }
 
   # Create port(s) on db switch.
   db-svr-01_port0:
@@ -180,8 +180,8 @@ resources:
     properties:
       admin_state_up: true
       network_id: { get_resource: db_network_01 }
-      security_groups:
-        - { get_resource: db_security_group }
+      security_group1s:
+        - { get_resource: db_security_group1 }
 
   # Provision instances.
   db-svr-01:
