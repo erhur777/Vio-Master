@@ -112,66 +112,12 @@ resources:
       router_id: { get_resource: heat_router_02 }
       subnet_id: { get_resource: db_subnet_02 }
 
-  # Create security groups for the tiers.
-  db_security_group:
-    type: OS::Neutron::SecurityGroup
-    properties:
-      description: Allow sql traffic from web tier
-      name: db-security-group
-      rules:
-        - remote_ip_prefix: { get_attr: [ app_subnet_02, cidr ] }
-          protocol: tcp
-          port_range_min: 3306
-          port_range_max: 3306
-        - remote_ip_prefix: 0.0.0.0/0
-          protocol: icmp
-
-  web_security_group:
-    type: OS::Neutron::SecurityGroup
-    properties:
-      description: Allow web traffic from anywhere
-      name: web-security-group
-      rules:
-        - remote_ip_prefix: 0.0.0.0/0
-          protocol: tcp
-          port_range_min: 80
-          port_range_max: 80
-        - remote_ip_prefix: 0.0.0.0/0
-          protocol: tcp
-          port_range_min: 22
-          port_range_max: 22
-        - remote_ip_prefix: 0.0.0.0/0
-          protocol: icmp
-
-  app_security_group:
-    type: OS::Neutron::SecurityGroup
-    properties:
-      description: Allow app traffic from web tier
-      name: app-security-group
-      rules:
-        - remote_ip_prefix: { get_attr: [ web_subnet_02, cidr ] }
-          protocol: tcp
-          port_range_min: 8443
-          port_range_max: 8443
-        - remote_ip_prefix: 0.0.0.0/0
-          protocol: icmp
-
   # Create ports on web switch.
   web-svr-02_port0:
     type: OS::Neutron::Port
     properties:
       admin_state_up: true
       network_id: { get_resource: web_network_02 }
-<<<<<<< HEAD
-      security_groups:
-<<<<<<< HEAD
-=======
-      security_group2s:
->>>>>>> parent of 3531c81... fixed security group names
-        - { get_resource: web_security_group2 }
-=======
-        - { get_resource: web_security_group }
->>>>>>> parent of de57a07... security group re-config
 
   # Create port(s) on app switch.
   app-svr-02_port0:
@@ -179,16 +125,6 @@ resources:
     properties:
       admin_state_up: true
       network_id: { get_resource: app_network_02 }
-<<<<<<< HEAD
-      security_groups:
-<<<<<<< HEAD
-=======
-      security_group2s:
->>>>>>> parent of 3531c81... fixed security group names
-        - { get_resource: app_security_group2 }
-=======
-        - { get_resource: app_security_group }
->>>>>>> parent of de57a07... security group re-config
 
   # Create port(s) on db switch.
   db-svr-02_port0:
@@ -196,22 +132,12 @@ resources:
     properties:
       admin_state_up: true
       network_id: { get_resource: db_network_02 }
-<<<<<<< HEAD
-      security_groups:
-<<<<<<< HEAD
-=======
-      security_group2s:
->>>>>>> parent of 3531c81... fixed security group names
-        - { get_resource: db_security_group2 }
-=======
-        - { get_resource: db_security_group }
->>>>>>> parent of de57a07... security group re-config
 
   # Provision instances.
   db-svr-02:
     type: OS::Nova::Server
     properties:
-      name: db-instance-02
+      name: db-instance-01
       image: { get_param: db_image }
       flavor: { get_param: flavor }
       networks:
@@ -221,7 +147,7 @@ resources:
     type: OS::Nova::Server
     depends_on: db-svr-02
     properties:
-      name: app-instance-02
+      name: app-instance-01
       image: { get_param: app_image }
       flavor: { get_param: flavor }
       networks:
@@ -231,7 +157,7 @@ resources:
     type: OS::Nova::Server
     depends_on: app-svr-02
     properties:
-      name: web-instance-02
+      name: web-instance-01
       image: { get_param: web_image }
       flavor: { get_param: flavor }
       networks:
