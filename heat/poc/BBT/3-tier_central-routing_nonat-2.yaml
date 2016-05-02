@@ -162,7 +162,7 @@ resources:
     properties:
       admin_state_up: true
       network_id: { get_resource: web_network_02 }
-      security_group2s:
+      security_groups:
         - { get_resource: web_security_group2 }
 
   # Create port(s) on app switch.
@@ -171,7 +171,7 @@ resources:
     properties:
       admin_state_up: true
       network_id: { get_resource: app_network_02 }
-      security_group2s:
+      security_groups:
         - { get_resource: app_security_group2 }
 
   # Create port(s) on db switch.
@@ -180,7 +180,7 @@ resources:
     properties:
       admin_state_up: true
       network_id: { get_resource: db_network_02 }
-      security_group2s:
+      security_groups:
         - { get_resource: db_security_group2 }
 
   # Provision instances.
