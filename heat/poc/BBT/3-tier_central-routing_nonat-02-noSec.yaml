@@ -137,7 +137,7 @@ resources:
   db-svr-02:
     type: OS::Nova::Server
     properties:
-      name: db-instance-01
+      name: db-instance-02
       image: { get_param: db_image }
       flavor: { get_param: flavor }
       networks:
@@ -147,7 +147,7 @@ resources:
     type: OS::Nova::Server
     depends_on: db-svr-02
     properties:
-      name: app-instance-01
+      name: app-instance-02
       image: { get_param: app_image }
       flavor: { get_param: flavor }
       networks:
@@ -157,7 +157,7 @@ resources:
     type: OS::Nova::Server
     depends_on: app-svr-02
     properties:
-      name: web-instance-01
+      name: web-instance-02
       image: { get_param: web_image }
       flavor: { get_param: flavor }
       networks:
