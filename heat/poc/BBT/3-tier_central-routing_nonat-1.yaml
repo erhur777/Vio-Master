@@ -162,7 +162,7 @@ resources:
     properties:
       admin_state_up: true
       network_id: { get_resource: web_network_01 }
-      :
+      security_groups:
         - { get_resource: web_security_group1 }
 
   # Create port(s) on app switch.
