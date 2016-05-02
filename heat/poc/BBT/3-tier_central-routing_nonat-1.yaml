@@ -162,8 +162,12 @@ resources:
     properties:
       admin_state_up: true
       network_id: { get_resource: web_network_01 }
+<<<<<<< HEAD
       security_groups:
 <<<<<<< HEAD
+=======
+      security_group1s:
+>>>>>>> parent of 3531c81... fixed security group names
         - { get_resource: web_security_group1 }
 =======
         - { get_resource: web_security_group }
@@ -175,8 +179,12 @@ resources:
     properties:
       admin_state_up: true
       network_id: { get_resource: app_network_01 }
+<<<<<<< HEAD
       security_groups:
 <<<<<<< HEAD
+=======
+      security_group1s:
+>>>>>>> parent of 3531c81... fixed security group names
         - { get_resource: app_security_group1 }
 =======
         - { get_resource: app_security_group }
@@ -188,8 +196,12 @@ resources:
     properties:
       admin_state_up: true
       network_id: { get_resource: db_network_01 }
+<<<<<<< HEAD
       security_groups:
 <<<<<<< HEAD
+=======
+      security_group1s:
+>>>>>>> parent of 3531c81... fixed security group names
         - { get_resource: db_security_group1 }
 =======
         - { get_resource: db_security_group }
