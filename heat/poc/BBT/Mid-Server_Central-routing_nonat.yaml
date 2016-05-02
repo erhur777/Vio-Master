@@ -39,10 +39,10 @@ resources:
     type: OS::Neutron::Subnet
     properties:
       name: mid-subnet-01
-      cidr: 10.102.253.0/29
+      cidr: 10.102.253.88/29
       enable_dhcp: true
       dns_nameservers: [ { get_param: dns } ]
-      gateway_ip: 10.102.253.1
+      gateway_ip: 10.102.253.89
       network_id: { get_resource: mid_network_01 }
 
   # Create router, add internal interfaces 
