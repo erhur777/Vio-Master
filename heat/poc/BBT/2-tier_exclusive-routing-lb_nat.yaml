@@ -159,7 +159,7 @@ resources:
       user_data_format: RAW
       user_data: |
             #!/bin/bash
-            echo This is Web Server-01 >> file.txt
+            echo This is the BCB Web Server-01 >> file.txt
             python -m SimpleHTTPServer 80
 
   web2:
@@ -173,7 +173,7 @@ resources:
       user_data_format: RAW
       user_data: |
             #!/bin/bash
-            echo This is Web Server-02 >> file.txt
+            echo This is the BCB Web Server-02 >> file.txt
             python -m SimpleHTTPServer 80
 
   db1:
@@ -241,7 +241,7 @@ outputs:
     description: URL for manager
     value:
       str_replace:
-        template: http://host/
+        template: http://bcb.idc.local/
         params:
           host: { get_attr: [ lb_floating, floating_ip_address ] }
 
@@ -254,4 +254,3 @@ outputs:
   web2_public_ip:
     description: Floating IP address of Web1 on the public network
     value: { get_attr: [ web2_floating_ip, floating_ip_address ] }
-
